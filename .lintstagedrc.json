@@ -1,0 +1,4 @@
+{
+  "*.{js,ts,vue}": "prettier",
+  "*.{vue,css,scss}": "prettier"
+}

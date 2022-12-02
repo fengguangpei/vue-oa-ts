@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "es5",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "Node",
+    "strict": false,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
+    "paths": {
+      "@": ["./src"],
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "baseUrl": "./",
+  "paths": {
+    "@": ["src"],
+    "@/*": ["src/*"]
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "composite": true,
+      "module": "CommonJS",
+      "moduleResolution": "Node",
+      "allowSyntheticDefaultImports": true
+    }
+  }
+}
