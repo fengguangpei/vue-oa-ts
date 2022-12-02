@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useKeepAlive } from '@/stores/keepAlive'
-import { storeToRefs } from 'pinia'
+import { storeToRefs } from 'pinia',
 const aliveInstance = useKeepAlive()
 const { excludes } = storeToRefs(aliveInstance)
 </script>
