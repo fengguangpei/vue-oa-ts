@@ -2,7 +2,7 @@
 import { useKeepAlive } from '@/stores/keepAlive'
 import { storeToRefs } from 'pinia'
 const aliveInstance = useKeepAlive()
-// const { excludes } = storeToRefs(aliveInstance)
+const { excludes } = storeToRefs(aliveInstance1)
 </script>
 
 <template>
