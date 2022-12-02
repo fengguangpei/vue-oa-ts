@@ -275,7 +275,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-
 .car-manage {
   width: 100%;
   height: 100%;
