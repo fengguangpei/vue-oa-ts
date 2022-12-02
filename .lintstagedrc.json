@@ -1,4 +1,4 @@
 {
-  "*.{js,ts}": "eslint --fix",
+  "*.{js,ts,vue}": "prettier --fix eslint --fix",
   "*.{vue,css,scss}": "stylelint --fix"
 }
