@@ -114,11 +114,11 @@ const changeCurrent = (num: number): void => {
   }
 
   .step-card__active {
-    background-color: #00a8a9;
+    background-color: rgb(0 66 217 / 90%);
     color: #fff;
 
     &:hover {
-      background-color: #00a8a9;
+      background-color: rgb(0 66 217 / 90%);
       color: #fff;
     }
 

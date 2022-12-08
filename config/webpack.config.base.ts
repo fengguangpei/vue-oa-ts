@@ -11,7 +11,11 @@ const config: webpack.Configuration = {
   output: {
     filename: '[name].[contenthash:8].js',
     path: path.resolve(__dirname, '../dist'),
-    clean: true
+    clean: true,
+    chunkLoadingGlobal: 'webpackJsonp_micro-app',
+    library: 'micro-app-[name]',
+    libraryTarget: 'umd',
+    publicPath: 'http://localhost:8081/'
   },
   resolve: {
     alias: {

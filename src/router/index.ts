@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
-  history: createWebHistory(window.__MICRO_APP_BASE_ROUTE__ || '/microApp'),
+  history: createWebHistory(window.__POWERED_BY_QIANKUN__ ? '/microApp' : ''),
   routes: [
     {
-      path: '/',
+      path: '/CarManage',
       name: 'CarManage',
       component: () => import('../views/car/CarManage.vue')
     },

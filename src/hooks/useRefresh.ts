@@ -1,6 +1,6 @@
 import { useKeepAlive } from '@/stores/keepAlive'
 import { useRouter } from 'vue-router'
-
+import { $rootRouter } from '@/main'
 function useRefresh() {
   const aliveInstance = useKeepAlive()
   const { changeAlive } = aliveInstance
@@ -12,8 +12,8 @@ function useRefresh() {
     const base = $router.options.history.base
     const path = base + $route.path
     changeAlive(name, false)
-    await window.$parentRouter.replace({ path: '/' })
-    await window.$parentRouter.replace({ path })
+    await $rootRouter.replace({ path: '/' })
+    await $rootRouter.replace({ path })
     changeAlive(name, true)
   }
 }
