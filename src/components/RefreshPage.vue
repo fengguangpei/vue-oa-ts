@@ -4,11 +4,9 @@ const refresh = useRefresh()
 </script>
 
 <template>
-  <t-tooltip content="刷新当前页面">
-    <t-button @click="refresh" shape="square" theme="default" variant="text">
-      <t-icon name="refresh" />
-    </t-button>
-  </t-tooltip>
+  <t-button @click="refresh" shape="square" theme="default" variant="text">
+    <t-icon name="refresh" />
+  </t-button>
 </template>
 
 <style scoped lang="scss">
