@@ -9,10 +9,10 @@ function useRefresh() {
     const name = $route.name as string
     const path = $route.path
     changeAlive(name, false)
-    await $router.replace({
+    $router.replace({
       path: '/RefreshPage'
     })
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       changeAlive(name, true)
       $router.replace({
         path
