@@ -104,7 +104,6 @@ const getParams = () => {
 }
 const checkHandler: VxeTableEvents.CheckboxChange = () => {
   const records: TableItem[] = tableInstance.value?.getCheckboxRecords() || []
-  console.log(records)
 }
 
 /** 分页 */

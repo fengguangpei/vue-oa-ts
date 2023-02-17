@@ -42,6 +42,7 @@ window.__POWERED_BY_QIANKUN__ || initApp('#micro-app')
 export let $rootRouter = null
 // bootstrap钩子
 export async function bootstrap() {
+  // eslint-disable-next-line no-console
   console.log('micro app bootstrap123')
   return Promise.resolve()
 }
@@ -62,7 +63,6 @@ export async function unmount() {
 }
 // update
 export async function update(props: Record<string, unknown>) {
-  console.log('update', props)
   if (props.$rootRouter) {
     $rootRouter = props.$rootRouter
   }

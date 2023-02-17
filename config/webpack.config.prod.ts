@@ -8,6 +8,9 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 const config: webpack.Configuration = merge(base, {
   target: 'web',
   mode: 'production',
+  output: {
+    publicPath: '/microApp/'
+  },
   module: {
     rules: [
       {

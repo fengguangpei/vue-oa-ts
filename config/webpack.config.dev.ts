@@ -1,10 +1,15 @@
 import { merge } from 'webpack-merge'
 import * as webpack from 'webpack'
 import base from './webpack.config.base'
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import 'webpack-dev-server'
+import path from 'path'
 const config: webpack.Configuration = merge(base, {
   mode: 'development',
   devtool: 'source-map',
+  output: {
+    publicPath: 'http://localhost:8081/'
+  },
   devServer: {
     hot: true,
     open: false,
@@ -12,7 +17,7 @@ const config: webpack.Configuration = merge(base, {
     static: './dist',
     historyApiFallback: true,
     headers: {
-      "Access-Control-Allow-Origin": '*'
+      'Access-Control-Allow-Origin': '*'
     }
   },
   module: {
@@ -28,7 +33,12 @@ const config: webpack.Configuration = merge(base, {
     ]
   },
   plugins: [
-    new webpack.ProgressPlugin()
+    new webpack.ProgressPlugin(),
+    new webpack.DllReferencePlugin({
+      context: path.resolve(__dirname, '../'),
+      manifest: require('../vendor/vendor_manifest.json')
+    }),
+    new ForkTsCheckerWebpackPlugin()
   ]
 })
 export default config

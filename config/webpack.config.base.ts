@@ -1,6 +1,6 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { VueLoaderPlugin } from 'vue-loader';
-import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import { VueLoaderPlugin } from 'vue-loader'
+import path from 'path'
 import webpack from 'webpack'
 // 按需导入
 import Components from 'unplugin-vue-components/webpack'
@@ -14,14 +14,13 @@ const config: webpack.Configuration = {
     clean: true,
     chunkLoadingGlobal: 'webpackJsonp_micro-app',
     library: 'micro-app-[name]',
-    libraryTarget: 'umd',
-    publicPath: 'http://localhost:8081/'
+    libraryTarget: 'umd'
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "../src")
+      '@': path.resolve(__dirname, '../src')
     },
-    extensions: [".js", ".ts", ".vue", ".scss", ".css", ".d.ts"]
+    extensions: ['.js', '.ts', '.vue', '.scss', '.css', '.d.ts']
   },
   module: {
     rules: [
@@ -33,7 +32,10 @@ const config: webpack.Configuration = {
         test: /\.ts$/,
         loader: 'ts-loader',
         exclude: /node_modules/,
-        options: { appendTsSuffixTo: [/\.vue$/] }
+        options: {
+          appendTsSuffixTo: [/\.vue$/],
+          transpileOnly: true
+        }
       },
       {
         test: /\.js$/,
@@ -83,7 +85,7 @@ const config: webpack.Configuration = {
       resolvers: [
         ElementPlusResolver(),
         TDesignResolver({
-          library: "vue-next"
+          library: 'vue-next'
         })
       ]
     }),
@@ -91,7 +93,7 @@ const config: webpack.Configuration = {
       resolvers: [
         ElementPlusResolver(),
         TDesignResolver({
-          library: "vue-next"
+          library: 'vue-next'
         })
       ]
     })
