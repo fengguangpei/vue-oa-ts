@@ -12,7 +12,7 @@ import CustomColumns from '@/components/CustomColumns.vue'
 import routerFactory from './router/index'
 import 'xe-utils'
 import { Column, Table } from 'vxe-table'
-// pinia
+// pinia123
 const pinia = createPinia()
 
 // VXETable

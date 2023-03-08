@@ -5,6 +5,7 @@ import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import * as webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 const config: webpack.Configuration = merge(base, {
   target: 'web',
   mode: 'production',
@@ -43,36 +44,6 @@ const config: webpack.Configuration = merge(base, {
   optimization: {
     splitChunks: {
       cacheGroups: {
-        vue: {
-          test: /[\\/]node_modules[\\/](@vue)[\\/]/,
-          name: 'vue',
-          chunks: 'all',
-          enforce: true
-        },
-        'vue-router': {
-          test: /[\\/]node_modules[\\/](vue-router)[\\/]/,
-          name: 'vue-router',
-          chunks: 'all',
-          enforce: true
-        },
-        'pinia': {
-          test: /[\\/]node_modules[\\/](pinia)[\\/]/,
-          name: 'pinia',
-          chunks: 'all',
-          enforce: true
-        },
-        'vue-table': {
-          test: /[\\/]node_modules[\\/](vxe-table|xe-utils)[\\/]/,
-          name: 'vxe-table',
-          chunks: 'all',
-          enforce: true
-        },
-        'element-plus': {
-          test: /[\\/]node_modules[\\/](element-plus)[\\/]/,
-          name: 'element-plus',
-          chunks: 'all',
-          enforce: true
-        },
         'tdesign-vue-next': {
           test: /[\\/]node_modules[\\/](tdesign-vue-next)[\\/]/,
           name: 'tdesign-vue-next',

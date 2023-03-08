@@ -1,11 +1,4 @@
 module.exports = {
-  plugins: [
-    [
-      "import",
-      {
-        libraryName: "vxe-table",
-        style: true
-      }
-    ]
-  ]
+  presets: ['@babel/preset-typescript'],
+  plugins: ['@babel/plugin-transform-runtime']
 }
