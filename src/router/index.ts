@@ -5,13 +5,9 @@ const routerFactory = () =>
     history: createWebHistory(window.__POWERED_BY_QIANKUN__ ? '/microApp' : ''),
     routes: [
       {
-        path: '/:All(.*)*',
-        name: 'Home',
-        component: Home
-      },
-      {
-        path: '/CarManage',
+        path: '/CarManage/:id?',
         name: 'CarManage',
+        props: true,
         component: () => import('../views/car/CarManage.vue')
       },
       {
@@ -27,6 +23,11 @@ const routerFactory = () =>
       {
         path: '/RefreshPage',
         name: 'RefreshPage',
+        component: Home
+      },
+      {
+        path: '/:All(.*)*',
+        name: 'Home',
         component: Home
       }
     ]

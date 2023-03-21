@@ -21,8 +21,13 @@ const useTable = (app: App) => {
 }
 
 // vue-router
+let router = null
 const useRouter = (app: App) => {
-  const router = routerFactory()
+  router = routerFactory()
+  router.onError = (err) => {
+    // eslint-disable-next-line no-console
+    console.error(err)
+  }
   app.use(router)
 }
 

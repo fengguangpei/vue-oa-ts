@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, defineProps } from 'vue'
 
 /** TS */
 import type { PageInfo } from 'tdesign-vue-next'
@@ -16,6 +16,13 @@ enum CarStatus {
   onFree = '空闲',
   onUsed = '使用中'
 }
+
+/** props */
+const props = defineProps({
+  id: String
+})
+// eslint-disable-next-line no-console
+console.log(props)
 
 /** 搜索 */
 const carStatus = ref<string[]>([])
