@@ -1,10 +1,10 @@
-import './public-path.js'
+import './public-path.ts'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import '@/assets/scss/Base.scss'
 import '@/assets/scss/Common.scss'
 import 'tdesign-vue-next/dist/tdesign.min.css'
-import type { App } from 'vue'
+import { type App } from 'vue'
 import APP from './App.vue'
 import RefreshPage from '@/components/RefreshPage.vue'
 import TableDownload from '@/components/TableDownload.vue'
@@ -12,6 +12,7 @@ import CustomColumns from '@/components/CustomColumns.vue'
 import routerFactory from './router/index'
 import 'xe-utils'
 import { Column, Table } from 'vxe-table'
+
 // pinia123
 const pinia = createPinia()
 
@@ -32,9 +33,9 @@ const useRouter = (app: App) => {
 }
 
 // init application
-let app: App = null
-function initApp(element: HTMLElement | string) {
-  app = createApp(APP)
+let app: App<HTMLDivElement> = null
+function initApp(element: HTMLDivElement | string) {
+  app = createApp(APP) as App<HTMLDivElement>
   app.component('RefreshPage', RefreshPage)
   app.component('TableDownload', TableDownload)
   app.component('CustomColumns', CustomColumns)
@@ -55,7 +56,7 @@ export async function bootstrap() {
 export async function mount(props: { container: HTMLElement }) {
   props.container.style.height = '100%'
   props.container.style.width = '100%'
-  const element: HTMLElement = props.container.querySelector('#micro-app')
+  const element: HTMLDivElement = props.container.querySelector('#micro-app')
   initApp(element)
   return Promise.resolve(true)
 }
@@ -76,7 +77,7 @@ export async function update(props: Record<string, unknown>) {
     app = null
   }
   if (props.remount) {
-    const element: HTMLElement = document.querySelector('#micro-app')
+    const element: HTMLDivElement = document.querySelector('#micro-app')
     initApp(element)
   }
   return Promise.resolve(true)

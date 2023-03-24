@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 const routerFactory = () =>
   createRouter({
-    history: createWebHistory(),
+    history: createWebHistory('microApp'),
     routes: [
       {
         path: '/CarManage/:id?',

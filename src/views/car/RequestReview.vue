@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import StepBar from '@/components/StepBar.vue'
 import SelectSendTarget from '@/components/car/SelectSendTarget.vue'
 import RuleConfig from '@/components/car/RuleConfig.vue'
 import SendTime from '@/components/car/SendTime.vue'
 import { $rootRouter } from '@/main'
-/** 路由 */
-const router = useRouter()
+
 /** 步骤条 */
 const currentStep = ref(1)
 const stepList = [

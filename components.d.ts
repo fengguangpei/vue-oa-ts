@@ -7,16 +7,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AddCar: typeof import('./src/components/car/AddCar.vue')['default']
-    CustomColumns: typeof import('./src/components/CustomColumns.vue')['default']
-    RefreshPage: typeof import('./src/components/RefreshPage.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    RuleConfig: typeof import('./src/components/car/RuleConfig.vue')['default']
-    SelectSendTarget: typeof import('./src/components/car/SelectSendTarget.vue')['default']
-    SendTime: typeof import('./src/components/car/SendTime.vue')['default']
-    StepBar: typeof import('./src/components/StepBar.vue')['default']
-    TableDownload: typeof import('./src/components/TableDownload.vue')['default']
     TButton: typeof import('tdesign-vue-next')['Button']
     TCheckboxGroup: typeof import('tdesign-vue-next')['CheckboxGroup']
     TCol: typeof import('tdesign-vue-next')['Col']
