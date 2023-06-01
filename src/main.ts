@@ -12,7 +12,8 @@ import CustomColumns from '@/components/CustomColumns.vue'
 import routerFactory from './router/index'
 import 'xe-utils'
 import { Column, Table } from 'vxe-table'
-
+import { Router } from 'vue-router'
+import { adjust, propEq, allPass } from 'ramda'
 // pinia123
 const pinia = createPinia()
 
@@ -22,18 +23,18 @@ const useTable = (app: App) => {
 }
 
 // vue-router
-let router = null
+let router: Router | null = null
 const useRouter = (app: App) => {
   router = routerFactory()
-  router.onError = (err) => {
+  router.onError((err) => {
     // eslint-disable-next-line no-console
     console.error(err)
-  }
+  })
   app.use(router)
 }
 
 // init application
-let app: App<HTMLDivElement> = null
+let app: App<HTMLDivElement> | null = null
 function initApp(element: HTMLDivElement | string) {
   app = createApp(APP) as App<HTMLDivElement>
   app.component('RefreshPage', RefreshPage)
@@ -45,7 +46,7 @@ function initApp(element: HTMLDivElement | string) {
 
 // qiankun
 window.__POWERED_BY_QIANKUN__ || initApp('#micro-app')
-export let $rootRouter = null
+export let $rootRouter: Router | null = null
 // bootstrap钩子
 export async function bootstrap() {
   // eslint-disable-next-line no-console
@@ -56,13 +57,13 @@ export async function bootstrap() {
 export async function mount(props: { container: HTMLElement }) {
   props.container.style.height = '100%'
   props.container.style.width = '100%'
-  const element: HTMLDivElement = props.container.querySelector('#micro-app')
-  initApp(element)
+  const element: HTMLDivElement | null = props.container.querySelector('#micro-app')
+  element && initApp(element)
   return Promise.resolve(true)
 }
 // unmount钩子
 export async function unmount() {
-  app.unmount()
+  app?.unmount()
   app = null
   $rootRouter = null
   return Promise.resolve(true)
@@ -70,15 +71,15 @@ export async function unmount() {
 // update
 export async function update(props: Record<string, unknown>) {
   if (props.$rootRouter) {
-    $rootRouter = props.$rootRouter
+    $rootRouter = props.$rootRouter as Router
   }
   if (props.unmount) {
-    app.unmount()
+    app?.unmount()
     app = null
   }
   if (props.remount) {
-    const element: HTMLDivElement = document.querySelector('#micro-app')
-    initApp(element)
+    const element: HTMLDivElement | null = document.querySelector('#micro-app')
+    element && initApp(element)
   }
   return Promise.resolve(true)
 }
