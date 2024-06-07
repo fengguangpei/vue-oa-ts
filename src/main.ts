@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import './public-path.ts'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -8,12 +9,12 @@ import { type App } from 'vue'
 import APP from './App.vue'
 import RefreshPage from '@/components/RefreshPage.vue'
 import TableDownload from '@/components/TableDownload.vue'
-import CustomColumns from '@/components/CustomColumns.vue'
+// import CustomColumns from '@/components/CustomColumns.vue'
 import routerFactory from './router/index'
 import 'xe-utils'
 import { Column, Table } from 'vxe-table'
 import { Router } from 'vue-router'
-import { adjust, propEq, allPass } from 'ramda'
+import { apolloProvider } from './graphql'
 // pinia123
 const pinia = createPinia()
 
@@ -27,7 +28,6 @@ let router: Router | null = null
 const useRouter = (app: App) => {
   router = routerFactory()
   router.onError((err) => {
-    // eslint-disable-next-line no-console
     console.error(err)
   })
   app.use(router)
@@ -39,8 +39,8 @@ function initApp(element: HTMLDivElement | string) {
   app = createApp(APP) as App<HTMLDivElement>
   app.component('RefreshPage', RefreshPage)
   app.component('TableDownload', TableDownload)
-  app.component('CustomColumns', CustomColumns)
-  app.use(useRouter).use(useTable).use(pinia)
+  // app.component('CustomColumns', CustomColumns)
+  app.use(apolloProvider).use(useRouter).use(useTable).use(pinia)
   app.mount(element)
 }
 
@@ -49,12 +49,10 @@ window.__POWERED_BY_QIANKUN__ || initApp('#micro-app')
 export let $rootRouter: Router | null = null
 // bootstrap钩子
 export async function bootstrap() {
-  // eslint-disable-next-line no-console
-  console.log('micro app bootstrap123')
   return Promise.resolve()
 }
 // mount钩子
-export async function mount(props: { container: HTMLElement }) {
+export async function mount(props: { container: HTMLDivElement }) {
   props.container.style.height = '100%'
   props.container.style.width = '100%'
   const element: HTMLDivElement | null = props.container.querySelector('#micro-app')

@@ -123,12 +123,13 @@ const save = () => {
     list.value.forEach((item) => {
       const fixed = item.fixed
       const name = item.name
-      const column = map.get(name)
+      const column = map.get(name)!
       column.fixed = fixed ? 'left' : column.fixed
       newColumns.push(column)
     })
-
-    map.has('操作') && newColumns.push(map.get('操作'))
+    if (map.get('操作')) {
+      newColumns.push(map.get('操作')!)
+    }
     props.instance?.reloadColumn(newColumns)
   })
   cancel()

@@ -6,7 +6,7 @@ import webpack from 'webpack'
 import Components from 'unplugin-vue-components/webpack'
 import AutoImport from 'unplugin-auto-import/webpack'
 // const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
-import { ElementPlusResolver, TDesignResolver } from 'unplugin-vue-components/resolvers'
+import { TDesignResolver } from 'unplugin-vue-components/resolvers'
 const config: webpack.Configuration = {
   entry: path.resolve(__dirname, '../src/main.ts'),
   output: {
@@ -14,7 +14,7 @@ const config: webpack.Configuration = {
     path: path.resolve(__dirname, '../dist'),
     clean: true,
     chunkLoadingGlobal: 'webpackJsonp_micro-app',
-    library: 'micro-app-[name]',
+    library: 'micro-app',
     libraryTarget: 'umd'
   },
   resolve: {

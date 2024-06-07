@@ -11,7 +11,7 @@ import type { VxeTableInstance, VxeTableEvents } from 'vxe-table'
 import AddCar from '@/components/car/AddCar.vue'
 import RefreshPage from '@/components/RefreshPage.vue'
 import TableDownload from '@/components/TableDownload.vue'
-import CustomColumns from '@/components/CustomColumns.vue'
+// import CustomColumns from '@/components/CustomColumns.vue'
 enum CarStatus {
   onFree = '空闲',
   onUsed = '使用中'
@@ -184,11 +184,11 @@ export default {
       <t-button @click="addCarHandler"> 新增车辆 </t-button>
       <refresh-page></refresh-page>
       <table-download></table-download>
-      <custom-columns
+      <!-- <custom-columns
         :columns="columns"
         table-key="CarManage"
         :instance="tableInstance"
-      ></custom-columns>
+      ></custom-columns> -->
     </div>
     <div class="table-section">
       <div class="vxe-table-box">

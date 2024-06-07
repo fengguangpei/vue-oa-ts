@@ -1,24 +1,36 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { filter, set, lensProp, times, identity, map, compose, lt } from 'ramda'
-const name = ref('CarLog')
-class Person {
-  constructor(public name: string, public age: number) {}
+import { ref, onUnmounted } from 'vue'
+const date = new Date()
+const h = date.getHours()
+const m = date.getMinutes()
+const s = date.getSeconds()
+const hour = ref(h)
+const minute = ref(m)
+const second = ref(s)
+const flag = ref(true)
+const time = ref('')
+const pause = (bool: boolean) => {
+  flag.value = bool
+  time.value = `${hour.value}:${minute.value}:${second.value}`
 }
-type p = (num: number) => { id: number; name: string }
-const person: p = (num) => ({
-  id: Math.random(),
-  name: `person-${num}`
+
+const timer = setInterval(() => {
+  if (second.value < 59) {
+    second.value++
+    return
+  }
+  second.value = 0
+  if (minute.value < 59) {
+    minute.value++
+    return
+  }
+  minute.value = 0
+  hour.value = hour.value + 1 === 24 ? 0 : hour.value + 1
+}, 1000)
+
+onUnmounted(() => {
+  clearInterval(timer)
 })
-type filterPerson = (person: ReturnType<p>) => boolean
-const filterPerson: filterPerson = (person) => lt(0.5, person.id)
-const personFactory = compose(
-  map(set(lensProp<ReturnType<p>, 'name'>('name'), 'name')),
-  filter(filterPerson),
-  map(person),
-  times(identity)
-)
-console.log(personFactory(10))
 </script>
 
 <script lang="ts">
@@ -28,7 +40,12 @@ export default {
 </script>
 
 <template>
-  <h1>{{ name }}</h1>
+  <h1 @mouseenter="pause(false)" @mouseleave="pause(true)">
+    <span v-if="flag">{{ hour }} : {{ minute }} : {{ second }}</span>
+    <span v-else>
+      {{ time }}
+    </span>
+  </h1>
 </template>
 
 <style scoped lang="scss"></style>
