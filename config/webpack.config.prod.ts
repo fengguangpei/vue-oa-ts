@@ -4,7 +4,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import * as webpack from 'webpack'
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 // const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 const config: webpack.Configuration = merge(base, {
   target: 'web',
@@ -30,7 +30,7 @@ const config: webpack.Configuration = merge(base, {
       filename: './css/[name].[contenthash:8].css'
     }),
     new WebpackManifestPlugin({}),
-    new BundleAnalyzerPlugin()
+    // new BundleAnalyzerPlugin()
   ],
   optimization: {
     splitChunks: {
