@@ -15215,9 +15215,10 @@ async function copyImpl(prelayout, postlayout, destinationFs, destination, sourc
         updated = await copySymlink(prelayout, postlayout, destinationFs, destination, destinationStat, sourceFs, source, sourceStat, opts);
       }
       break;
-    default: {
-      throw new Error(`Unsupported file type (${sourceStat.mode})`);
-    }
+    default:
+      {
+        throw new Error(`Unsupported file type (${sourceStat.mode})`);
+      }
   }
   if (opts.linkStrategy?.type !== `HardlinkFromIndex` || !sourceStat.isFile()) {
     if (updated || destinationStat?.mtime?.getTime() !== mtime.getTime() || destinationStat?.atime?.getTime() !== atime.getTime()) {
@@ -15280,10 +15281,7 @@ async function copyFolder(prelayout, postlayout, destinationFs, destination, des
 }
 async function copyFileViaIndex(prelayout, postlayout, destinationFs, destination, destinationStat, sourceFs, source, sourceStat, opts, linkStrategy) {
   const sourceHash = await sourceFs.checksumFilePromise(source, { algorithm: `sha1` });
-  const defaultMode = 420;
-  const sourceMode = sourceStat.mode & 511;
-  const indexFileName = `${sourceHash}${sourceMode !== defaultMode ? sourceMode.toString(8) : ``}`;
-  const indexPath = destinationFs.pathUtils.join(linkStrategy.indexPath, sourceHash.slice(0, 2), `${indexFileName}.dat`);
+  const indexPath = destinationFs.pathUtils.join(linkStrategy.indexPath, sourceHash.slice(0, 2), `${sourceHash}.dat`);
   let AtomicBehavior;
   ((AtomicBehavior2) => {
     AtomicBehavior2[AtomicBehavior2["Lock"] = 0] = "Lock";
@@ -15339,12 +15337,8 @@ async function copyFileViaIndex(prelayout, postlayout, destinationFs, destinatio
     }
   });
   postlayout.push(async () => {
-    if (!indexStat) {
+    if (!indexStat)
       await destinationFs.lutimesPromise(indexPath, defaultTime, defaultTime);
-      if (sourceMode !== defaultMode) {
-        await destinationFs.chmodPromise(indexPath, sourceMode);
-      }
-    }
     if (tempPath && !tempPathCleaned) {
       await destinationFs.unlinkPromise(tempPath);
     }
@@ -16224,12 +16218,6 @@ class ProxiedFS extends FakeFS {
   }
 }
 
-function direntToPortable(dirent) {
-  const portableDirent = dirent;
-  if (typeof dirent.path === `string`)
-    portableDirent.path = npath.toPortablePath(dirent.path);
-  return portableDirent;
-}
 class NodeFS extends BasePortableFakeFS {
   constructor(realFs = fs__default.default) {
     super();
@@ -16556,31 +16544,15 @@ class NodeFS extends BasePortableFakeFS {
   async readdirPromise(p, opts) {
     return await new Promise((resolve, reject) => {
       if (opts) {
-        if (opts.recursive && process.platform === `win32`) {
-          if (opts.withFileTypes) {
-            this.realFs.readdir(npath.fromPortablePath(p), opts, this.makeCallback((results) => resolve(results.map(direntToPortable)), reject));
-          } else {
-            this.realFs.readdir(npath.fromPortablePath(p), opts, this.makeCallback((results) => resolve(results.map(npath.toPortablePath)), reject));
-          }
-        } else {
-          this.realFs.readdir(npath.fromPortablePath(p), opts, this.makeCallback(resolve, reject));
-        }
+        this.realFs.readdir(npath.fromPortablePath(p), opts, this.makeCallback(resolve, reject));
       } else {
-        this.realFs.readdir(npath.fromPortablePath(p), this.makeCallback(resolve, reject));
+        this.realFs.readdir(npath.fromPortablePath(p), this.makeCallback((value) => resolve(value), reject));
       }
     });
   }
   readdirSync(p, opts) {
     if (opts) {
-      if (opts.recursive && process.platform === `win32`) {
-        if (opts.withFileTypes) {
-          return this.realFs.readdirSync(npath.fromPortablePath(p), opts).map(direntToPortable);
-        } else {
-          return this.realFs.readdirSync(npath.fromPortablePath(p), opts).map(npath.toPortablePath);
-        }
-      } else {
-        return this.realFs.readdirSync(npath.fromPortablePath(p), opts);
-      }
+      return this.realFs.readdirSync(npath.fromPortablePath(p), opts);
     } else {
       return this.realFs.readdirSync(npath.fromPortablePath(p));
     }
@@ -17548,8 +17520,6 @@ class VirtualFS extends ProxiedFS {
   }
 }
 
-const URL = Number(process.versions.node.split('.', 1)[0]) < 20 ? url.URL : globalThis.URL;
-
 class NodePathFS extends ProxiedFS {
   constructor(baseFs) {
     super(npath);
@@ -17561,7 +17531,7 @@ class NodePathFS extends ProxiedFS {
   mapToBase(path) {
     if (typeof path === `string`)
       return path;
-    if (path instanceof URL)
+    if (path instanceof url.URL)
       return url.fileURLToPath(path);
     if (Buffer.isBuffer(path)) {
       const str = path.toString();
@@ -19127,10 +19097,8 @@ class ZipFS extends BasePortableFakeFS {
           throw new Error(`Incomplete read`);
         else if (rc > size)
           throw new Error(`Overread`);
-        let result = Buffer.from(this.libzip.HEAPU8.subarray(buffer, buffer + size));
-        if (process.env.YARN_IS_TEST_ENV && process.env.YARN_ZIP_DATA_EPILOGUE)
-          result = Buffer.concat([result, Buffer.from(process.env.YARN_ZIP_DATA_EPILOGUE)]);
-        return result;
+        const memory = this.libzip.HEAPU8.subarray(buffer, buffer + size);
+        return Buffer.from(memory);
       } finally {
         this.libzip.free(buffer);
       }
@@ -20188,7 +20156,7 @@ function applyPatch(pnpapi, opts) {
   process.versions.pnp = String(pnpapi.VERSIONS.std);
   const moduleExports = require$$0__default.default;
   moduleExports.findPnpApi = (lookupSource) => {
-    const lookupPath = lookupSource instanceof URL ? url.fileURLToPath(lookupSource) : lookupSource;
+    const lookupPath = lookupSource instanceof url.URL ? url.fileURLToPath(lookupSource) : lookupSource;
     const apiPath = opts.manager.findApiPathFor(lookupPath);
     if (apiPath === null)
       return null;
@@ -20610,6 +20578,28 @@ function getPackageScopeConfig(resolved, readFileSyncFn) {
   return packageConfig;
 }
 
+/**
+  @license
+  Copyright Node.js contributors. All rights reserved.
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+*/
 function throwImportNotDefined(specifier, packageJSONUrl, base) {
   throw new ERR_PACKAGE_IMPORT_NOT_DEFINED(
     specifier,
